@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Your quote
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-start">Transaction</th>
+                <th class="text-end">Stock</th>
+                <th class="text-end">Price</th>
+                <th class="text-end">Number</th>
+                <th class="text-end">Total</th>
+                <th class="text-end">Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td class="text-start">{{ transaction['transaction'] }}</td>
+                    <td class="text-end">{{ transaction['stock'] }}</td>
+                    <td class="text-end">{{ usd(transaction['single_price']) }}</td>
+                    <td class="text-end">{{ transaction['number'] }}</td>
+                    <td class="text-end">{{ usd(transaction['price']) }}</td>
+                    <td class="text-end">{{ transaction['time'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
