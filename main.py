@@ -1,3 +1,4 @@
+"""Importing the needed modules"""
 from flask import Flask, flash, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 
@@ -30,7 +31,6 @@ def register():
         return
     print("You are not logged in")
 
-    """Register user"""
     # Forget any user_id
     session.clear()
 
@@ -40,7 +40,7 @@ def register():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            flash("must provide username")
+            flash("You must provide a username")
             return render_template("register.html")
 
 #         # Query database for username
@@ -50,13 +50,15 @@ def register():
 #         if len(rows) != 0:
 #             return apology("user already exists", 400)
 
-#         # Ensure password was submitted
-#         elif not request.form.get("password"):
-#             return apology("must provide password", 400)
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            flash("You must provide a password")
+            return render_template("register.html")
 
-#         # Ensure password and confirmation are the same
-#         elif request.form.get("password") != request.form.get("confirmation"):
-#             return apology("passwords do not match", 400)
+        # Ensure password and confirmation are the same
+        elif request.form.get("password") != request.form.get("confirmation"):
+            flash("The two passwords are not the same")
+            return render_template("register.html")
 
 #         # add user to database
 #         username = request.form.get("username")
