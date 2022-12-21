@@ -4,6 +4,8 @@ import urllib.parse
 
 from flask import redirect, render_template, request, session
 from functools import wraps
+import sqlite3
+from sqlite3 import Error
 
 
 def apology(message, code=400):
@@ -62,3 +64,37 @@ def lookup(symbol):
 def usd(value):
     """Format value as USD."""
     return f"${value:,.2f}"
+
+
+# Create database connection
+def create_connection(path):
+    connection = None
+    try:
+        connection = sqlite3.connect(path)
+        print("Connection to SQLite DB successful")
+    except Error as e:
+        print(f"The error '{e}' occurred")
+    return connection
+
+# Create table 'users' if it doesn't exist
+def execute_query(connection, query):
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query)
+        connection.commit()
+        print("query executed successfully")
+    except Error as e:
+        print(f"The error '{e}' occurred")
+
+# Execute read query
+def execute_read_query(connection, query):
+    cursor = connection.cursor()
+    result = None
+    try:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        print("got from database:")
+        print(result)
+        return result
+    except Error as e:
+        print(f"The error '{e}' occurred")
